@@ -1,11 +1,13 @@
 <?php
-    require_once "../preController/index.php";
-    require_once "../helpers/index.php";
+    require_once __DIR__."../../preController/index.php";
+    require_once __DIR__."../../helpers/index.php";
 
-    $link = "localhost";
-    $dbName = "tcc";
-    $usr = "root";
-    $pass = "";
+    $json = file_get_contents(__DIR__."../../../../secrets.json");
+    $dbData = json_decode($json);
+    $link = $dbData->link;
+    $dbName = $dbData->dbname;
+    $usr = $dbData->usr;
+    $pass = $dbData->pass;
     
     $controller = new WorksController;
     
@@ -21,6 +23,7 @@
                 //tenta se conectar com o banco de dados
                 $con = connection($link, $dbName, $usr, $pass);
                 $con -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                
             }catch(PDOException $e) {
 
                 //em caso de erro exibe a window.allert()
@@ -28,7 +31,7 @@
             }
 
             if($controller->getId() === 0){
-
+                
                 //prepara uma string para ser executada posteriormente com o prepare;
                 //:_mark - é uma forma de se proteger, para ninguem colocar um drop database e acabar com o banco
                 $statement = $con -> prepare("SELECT * from tb_work;");
@@ -46,8 +49,8 @@
 
                 //prepara uma string para ser executada posteriormente com o prepare;
                 //:_mark - é uma forma de se proteger, para ninguem colocar um drop database e acabar com o banco
-                $statement = $con -> prepare("SELECT * FROM tb_work; WHERE id = :_id");
-                $statement -> bindValue(":_id", $controller->getId(), PDO::PARAM_INT);
+                $statement = $con -> prepare("SELECT * FROM tb_work; WHERE id = :id");
+                $statement -> bindValue(":id", $controller->getId(), PDO::PARAM_INT);
                 try{
                     //tenta executar a string que estava sendo preparada, ou seja, envia para o DB os dados.
                     $statement -> execute();
@@ -65,27 +68,34 @@
         public function create() :array {
             
             global $link, $dbName, $usr, $pass, $controller;
-
+            $con = "";
             try{
-
                 //tenta se conectar com o banco de dados
                 $con = connection($link, $dbName, $usr, $pass);
                 $con -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+               
             }catch(PDOException $e) {
 
                 //em caso de erro exibe a window.allert()
                 echo `window.allert('Erro ao conectar com o banco de dados! <br> {$e->getMessage()}')`;
             }
 
-            //prepara uma string para ser executada posteriormente com o prepare;
-            //:_mark - é uma forma de se proteger, para ninguem colocar um drop database e acabar com o banco
-            $statement = $con -> prepare("INSERT INTO tb_work VALUES (NULL, :_name, :_type, :_year, :_description)");
+            try{
+
+                //prepara uma string para ser executada posteriormente com o prepare;
+                //:_mark - é uma forma de se proteger, para ninguem colocar um drop database e acabar com o banco
+                $statement = $con -> prepare("INSERT INTO tb_work VALUES (NULL, :name, :type, :year, :description)");
+                //substitui o :_mark por um valor, e expecifica o tipo do valor (explicitado por segurança);
+                $statement -> bindValue(":name", $controller->getName(), PDO::PARAM_STR);
+                $statement -> bindValue(":type", $controller->getType(), PDO::PARAM_STR);
+                $statement -> bindValue(":year", $controller->getYear(), PDO::PARAM_STR);
+                $statement -> bindValue(":description", $controller->getDescription(), PDO::PARAM_STR);
+            }catch(Exeption $e){
+                echo "ERROR ".$e;
+                exit();
+            }
             
-            //substitui o :_mark por um valor, e expecifica o tipo do valor (explicitado por segurança);
-            $statement -> bindValue(":_name", $controller->getName(), PDO::PARAM_STR);
-            $statement -> bindValue(":_type", $controller->getType(), PDO::PARAM_STR);
-            $statement -> bindValue(":_year", $controller->getYear(), PDO::PARAM_STR);
-            $statement -> bindValue(":_description", $controller->getDescription(), PDO::PARAM_STR);
+            
             
 
             try{
@@ -120,14 +130,14 @@
 
             //prepara uma string para ser executada posteriormente com o prepare;
             //:_mark - é uma forma de se proteger, para ninguem colocar um drop database e acabar com o banco
-            $statement = $con -> prepare("UPDATE tb_work SET name=:_name, type=:_type, year=:_year, description=:_description WHERE id = :_id");
+            $statement = $con -> prepare("UPDATE tb_work SET name=:name, type=:type, year=:year, description=:description WHERE id = :id");
             
             //substitui o :_mark por um valor, e expecifica o tipo do valor (explicitado por segurança);
-            $statement -> bindValue(":_id", $controller->getId(), PDO::PARAM_INT);
-            $statement -> bindValue(":_name", $controller->getName(), PDO::PARAM_STR);
-            $statement -> bindValue(":_type", $controller->getType(), PDO::PARAM_STR);
-            $statement -> bindValue(":_year", $controller->getYear(), PDO::PARAM_STR);
-            $statement -> bindValue(":_description", $controller->getDescription(), PDO::PARAM_STR);
+            $statement -> bindValue(":id", $controller->getId(), PDO::PARAM_INT);
+            $statement -> bindValue(":name", $controller->getName(), PDO::PARAM_STR);
+            $statement -> bindValue(":type", $controller->getType(), PDO::PARAM_STR);
+            $statement -> bindValue(":year", $controller->getYear(), PDO::PARAM_STR);
+            $statement -> bindValue(":description", $controller->getDescription(), PDO::PARAM_STR);
             
 
             try{
@@ -165,10 +175,10 @@
 
             //prepara uma string para ser executada posteriormente com o prepare;
             //:_mark - é uma forma de se proteger, para ninguem colocar um drop database e acabar com o banco
-            $statement = $con -> prepare("DELETE FROM tb_work WHERE id = :_id");
+            $statement = $con -> prepare("DELETE FROM tb_work WHERE id = :id");
             
             //substitui o :_mark por um valor, e expecifica o tipo do valor (explicitado por segurança);
-            $statement -> bindValue(":_id", $controller->getId(), PDO::PARAM_INT);
+            $statement -> bindValue(":id", $controller->getId(), PDO::PARAM_INT);
 
             try{
                 //tenta executar a string que estava sendo preparada, ou seja, envia para o DB os dados.
