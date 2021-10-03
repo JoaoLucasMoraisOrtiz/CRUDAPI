@@ -1,6 +1,9 @@
 <?php
-    require_once "../controller/index.php";
-    require_once "../preController/index.php";
+
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Headers: *");
+    require_once __DIR__."../../controller/index.php";
+    require_once __DIR__."../../preController/index.php";
 
     $controller = new WorksController;
     $actions = new ActionsWorks;
