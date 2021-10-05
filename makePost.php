@@ -12,11 +12,7 @@
         <p>nome: <input type="text" name="name" id="name" placeholder="Império do Brasil"></p>
         <p>materia: <input type="text" name="type" id="type" placeholder="História"></p>
         <p>ano: <input type="text" name="year" id="year" placeholder="II EMIA"></p>
-<<<<<<< HEAD
         <p>descriçao: <br><textarea name="description" id="description" placeholder="sua questao" cols="30" rows="10"></textarea></p>
-=======
-        <p>descriçao: <input type="text" name="description" id="description" placeholder="sua questao"></p>
->>>>>>> 2ad2eb995810bd83b3b43a50afaa8742a5460390
         <input id="buttonInsert" type="submit" name="button" value="enviar"/>
     </form>
 
