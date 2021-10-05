@@ -84,13 +84,29 @@
 
                 //prepara uma string para ser executada posteriormente com o prepare;
                 //:_mark - é uma forma de se proteger, para ninguem colocar um drop database e acabar com o banco
+<<<<<<< HEAD
                 $statement = $con -> prepare("INSERT INTO tb_work VALUES(NULL, :name, :type, :year, :description)");
+=======
+<<<<<<< HEAD
+                $statement = $con -> prepare("INSERT INTO tb_work VALUES(NULL, :name, :type, :year, :description)");
+=======
+                $statement = $con -> prepare("INSERT INTO tb_work VALUES (NULL, :name, :type, :year, :description)");
+>>>>>>> 18a7ffb2cb0b84e5272f57008bf2d4568389e388
+>>>>>>> 2ad2eb995810bd83b3b43a50afaa8742a5460390
                 //substitui o :_mark por um valor, e expecifica o tipo do valor (explicitado por segurança);
                 $statement -> bindValue(":name", $controller->getName(), PDO::PARAM_STR);
                 $statement -> bindValue(":type", $controller->getType(), PDO::PARAM_STR);
                 $statement -> bindValue(":year", $controller->getYear(), PDO::PARAM_STR);
                 $statement -> bindValue(":description", $controller->getDescription(), PDO::PARAM_STR);
+<<<<<<< HEAD
             }catch(Exception $e){
+=======
+<<<<<<< HEAD
+            }catch(Exception $e){
+=======
+            }catch(Exeption $e){
+>>>>>>> 18a7ffb2cb0b84e5272f57008bf2d4568389e388
+>>>>>>> 2ad2eb995810bd83b3b43a50afaa8742a5460390
                 echo "ERROR ".$e;
                 exit();
             }
