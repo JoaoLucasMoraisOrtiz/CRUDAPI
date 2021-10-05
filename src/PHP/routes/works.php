@@ -1,5 +1,10 @@
 <?php
 
+<<<<<<< HEAD
+=======
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Headers: *");
+>>>>>>> 2ad2eb995810bd83b3b43a50afaa8742a5460390
     require_once __DIR__."../../controller/index.php";
     require_once __DIR__."../../preController/index.php";
 
