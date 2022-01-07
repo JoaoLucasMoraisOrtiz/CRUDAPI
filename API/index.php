@@ -1,15 +1,14 @@
 <?php
 
-require_once __DIR__ . "/controller/Posts/Actions.php";
-require_once __DIR__ . "/controller/Users/Actions.php";
-
+require_once __DIR__ . "/controller/ActionsPost.php";
+require_once __DIR__ . "/controller/ActionsUsers.php";
 
 //                          -=-=-=-=-=-=-=- POSTS -=-=-=-=-=-=-=-=-
 
-$api = new ActionsPosts;
+/* $api = new ActionsPosts; */
 
 //Trazendo os posts do banco de dados -->Funcionando
-$content = $api->get();
+/* $content = $api->get(); */
 
 //enviando um post para o Banco de dados -->Funcionando
 /* $content = [
@@ -33,10 +32,10 @@ $content = $api->update($postToEdit); */
 /* $api->delete(4); */
 
 //                            -=-=-=-=-=-=- USERS -=-=-=-=-=-=-
-/* $api = new ActionsUsers; */
+$api = new ActionsUsers;
 
 //Trazendo os usuários do banco de dados -->Funcionando
-/* $content = $api->get(); */
+$content = $api->get();
 
 //criando um usuário no banco de dados
 /* $param = [
@@ -59,6 +58,10 @@ $post = $api->post($param); */
 ];
 
 $post = $api->update($param); */
+
+echo "<pre>";
+print_r($post);
+print_r($api->get());
 
 
 //deletando um usuário na DB -->Funcionando
