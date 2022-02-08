@@ -6,7 +6,7 @@ putenv("DB_NAME=jperegrinos");
 putenv("DB_HOST=localhost:3306");
 putenv("DB_USER=joao");
 putenv("DB_PASS=");
-putenv("DB_POSTS_TABLE=posts");
+putenv("DB_USERS_TABLE=user");
 
 
 class ActionsUsers
@@ -90,7 +90,7 @@ class ActionsUsers
      */
     private function getTableName()
     {
-        $this->tableName = getenv('DB_POSTS_TABLE');
+        $this->tableName = getenv('DB_USERS_TABLE');
     }
 
     /**
